@@ -30,12 +30,11 @@ Keep docs modular and structured so agents can locate and cross-reference them e
 
 - `projects/` — Flagship builds, architectural breakdowns, case studies.
   - Seed projects: `avascry.md`, `changestate.md`, `avabatt.md`, `avathings-applet.md`, `avathings-web.md`, `locklogs.md`.
-- `infrastructure/` — Physical lab topology, compute partitioning, power resiliency, network specs.
+- `lab.md` — The whole home lab in one doc: machines, network, power, software, and agent experiments.
 - `ethos/` — Operating principles, mental models, decision heuristics, AI-native philosophies.
   - Initial seeds: `ai-native.md`, `systems-thinking.md`.
 - `skills/` — Hard capability specs, toolchains, integration profiles.
 - `experience/` — Roles, engagements, operational impact, battle scars.
-- `lab/` — Agent experiments, bench tests, prototypes, rapid tinkerings.
 
 ---
 
@@ -66,7 +65,7 @@ The reader is a smart human who is not a specialist: a hiring manager, a peer, a
 - **Persona**: First person ("I built", "I decided"), plain and warm, a little dry. Confident without bragging.
 - **Lead with what it does for someone.** Say what the thing is and why anyone would care before any internals. Mechanics go in linked deep-dive docs, not the README or a project's opening paragraph.
 - **Plain words over jargon.** If a term needs a PhD, swap it or explain it in a clause. No invented-sounding branding ("harmonic dispersion", "Apex", "invariant-driven paradigm") unless it is the real name of a real thing.
-- **Concrete over grand.** Real commands, real numbers, real constraints. "Typically 1–25 ms on a downclocked laptop" beats "sub-millisecond, enterprise-grade".
+- **Concrete over grand.** Real commands, real numbers, real constraints. "Typically 1–25 ms on modest local hardware" beats "sub-millisecond, enterprise-grade".
 - **No superlatives or unverified metrics.** If a number is not measured, leave it out or mark it `TODO(dev): confirm`. Claims must survive the owner reading them aloud.
 - **Short sentences, short sections.** Emoji section headers are fine in READMEs and top-level pages. Use them sparingly in deep technical docs.
 - **Reference voice**: `tdg/compstate/README.md` (ChangeState). Match its tone: direct, friendly, example-first.

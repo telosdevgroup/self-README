@@ -13,7 +13,7 @@ It's not a resume. It's a working record: what I've built, what it runs on, and 
 
 All of it runs on my own Linux hardware.
 
-- 🔍 **[AvaScry](projects/avascry.md)**: a search engine for 500,000+ Magic: The Gathering printings, with pages typically served in about 1–25 ms from an in-memory cache. It runs on a downclocked laptop, so there's no cloud bill.
+- 🔍 **[AvaScry](projects/avascry.md)**: a search engine for 500,000+ Magic: The Gathering printings, with pages typically served in about 1–25 ms from an in-memory cache. It runs on my Core node with some cores toggled off to keep power low, so there's no cloud bill.
 - 🎚️ **[ChangeState](projects/changestate.md)**: an automatic resource manager for Linux. It keeps machines cooler and quieter by capping CPU clocks, with zero third-party runtime dependencies.
 - 🔋 **[avabatt](projects/avabatt.md)**: a battery-lifespan manager that sets charge thresholds straight through `sysfs`, ThinkPad ACPI, and Lenovo EC nodes. No daemon.
 - 🖥️ **[avathings-applet](projects/avathings-applet.md)**: a Cinnamon taskbar applet for live hardware telemetry and control.
@@ -25,7 +25,7 @@ More is coming.
 
 ## 🏠 Where It Runs
 
-The home lab: a core node (Ada 5000, 128 GB), AdGuard Home DNS, a UniFi UDR7, Cloudflare Tunnels, and Anker Solix batteries for power resilience. Full breakdown in [Lab & Hardware Infrastructure](infrastructure/lab-topology.md).
+The home lab: a core node (Ada 5000, 128 GB), AdGuard Home DNS, a UniFi UDR7, Cloudflare Tunnels, and Anker Solix batteries for power resilience. Full breakdown in [The Lab](lab.md).
 
 ---
 
@@ -39,7 +39,7 @@ The home lab: a core node (Ada 5000, 128 GB), AdGuard Home DNS, a UniFi UDR7, Cl
 ## 💼 Background
 
 - 📊 **[Operations, ERP, & Systems Analysis](experience/erp-and-operations.md)**: a Production & Operations Management degree, an Accounting minor, NetSuite ERP administration, and e-commerce data pipelines.
-- 🛠️ **[Skills](skills/README.md)** and 🧪 **[Lab](lab/README.md)**: capability specs and agent experiments. Both are still being filled in.
+- 🛠️ **[Skills](skills/README.md)**: capability specs and toolchains. Still being filled in.
 
 ---
 

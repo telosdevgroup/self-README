@@ -1,6 +1,6 @@
 # 🔮 AvaScry
 
-A card search site for Magic: The Gathering that cares about the old, odd, and forgotten printings. It indexes 500,000+ printings and a large pile of card art scans (340k+ is close enough). I run it on a downclocked laptop, and there is no cloud bill.
+A card search site for Magic: The Gathering that cares about the old, odd, and forgotten printings. It indexes 500,000+ printings and a large pile of card art scans (340k+ is close enough). I run it on my Core node with some CPU cores toggled off to keep power and heat low, and there is no cloud bill.
 
 Most card sites push you toward the popular cards. AvaScry goes the other way: premodern variants, foreign-language prints, and the printings nobody lists.
 
