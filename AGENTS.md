@@ -31,9 +31,7 @@ Keep docs modular and structured so agents can locate and cross-reference them e
 - `projects/` — Flagship builds, architectural breakdowns, case studies.
   - Seed projects: `avascry.md`, `changestate.md`, `avabatt.md`, `avathings-applet.md`, `avathings-web.md`, `locklogs.md`.
 - `lab.md` — The whole home lab in one doc: machines, network, power, software, and agent experiments.
-- `ethos/` — Operating principles, mental models, decision heuristics, AI-native philosophies.
-  - Initial seeds: `ai-native.md`, `systems-thinking.md`.
-- `experience/` — Roles, engagements, skills, operational impact, battle scars.
+- `context/` — Personal background, operating principles, mental models, skills, and ERP/operations experience (`ai-native.md`, `systems-thinking.md`, `skills.md`, `erp-and-operations.md`).
 
 ---
 

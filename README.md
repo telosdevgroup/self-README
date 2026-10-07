@@ -31,15 +31,15 @@ The home lab: a core node (Ada 5000, 128 GB), AdGuard Home DNS, a UniFi UDR7, Cl
 
 ## 🧠 How I Think
 
-- 🤖 **[The AI-Native Operating Model](ethos/ai-native.md)**: moving from writing syntax to conducting systems. Prompts are RFCs, files stay small, and a human checks the result.
-- ⚖️ **[Systems Thinking](ethos/systems-thinking.md)**: from balance sheets to Linux kernels. Invariants over implementation, conservation of state, and Theory of Constraints.
+- 🤖 **[The AI-Native Operating Model](context/ai-native.md)**: moving from writing syntax to conducting systems. Prompts are RFCs, files stay small, and a human checks the result.
+- ⚖️ **[Systems Thinking](context/systems-thinking.md)**: from balance sheets to Linux kernels. Invariants over implementation, conservation of state, and Theory of Constraints.
 
 ---
 
 ## 💼 Background
 
-- 📊 **[Operations, ERP, & Systems Analysis](experience/erp-and-operations.md)**: a Production & Operations Management degree, an Accounting minor, NetSuite ERP administration, and e-commerce data pipelines.
-- 🛠️ **[Skills](experience/skills.md)**: capability specs and toolchains. Still being filled in.
+- 📊 **[Operations, ERP, & Systems Analysis](context/erp-and-operations.md)**: a Production & Operations Management degree, an Accounting minor, NetSuite ERP administration, and e-commerce data pipelines.
+- 🛠️ **[Skills](context/skills.md)**: capability specs and toolchains. Still being filled in.
 
 ---
 
