@@ -39,10 +39,9 @@ sudo avabatt apply        # re-apply saved settings from /etc/avabatt.conf
 
 The Linux kernel exposes charge limits as files under sysfs. avabatt writes your start and stop thresholds to those files and saves them in `/etc/avabatt.conf`. The systemd unit runs `avabatt apply` at boot and after resume, because some firmware forgets the values.
 
-It needs a laptop whose firmware supports charge thresholds. TODO(dev): confirm which models I've tested on.
+It needs a laptop whose firmware supports charge thresholds. I've tested it on a Lenovo ThinkPad, a ThinkBook, and a generic Nimo-brand laptop.
 
 ## 🧩 Part of a set
 
 - [avathings-applet](avathings-applet.md): panel applet that controls this from the taskbar.
 - [changestate](changestate.md): the sibling tool for CPU/GPU capacity.
-- [avathings-web](avathings-web.md): the website documenting all of them.

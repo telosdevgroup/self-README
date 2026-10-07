@@ -4,7 +4,7 @@ A card search site for Magic: The Gathering that cares about the old, odd, and f
 
 Most card sites push you toward the popular cards. AvaScry goes the other way: premodern variants, foreign-language prints, and the printings nobody lists.
 
-Live at avascry.com. TODO(dev): confirm public repo link, if any.
+Live at avascry.com.
 
 ## 📏 What it feels like
 
@@ -15,21 +15,7 @@ Live at avascry.com. TODO(dev): confirm public repo link, if any.
 | Hosting bill | None. Just the laptop and power. |
 | Launch stress test | About 3.5M requests in the first 7–10 days |
 
-Most of that launch traffic came from AI scrapers (Meta, OpenAI, Anthropic and others). It was a rough first week and it shaped the defenses below. TODO(dev): confirm the 3.5M figure and its source.
-
-## 🧪 Try it
-
-The code lives in `tdg/mtgabyss`. The pieces I touch most:
-
-```bash
-# Run the web app (FastAPI, listens locally on :8004)
-python app.py
-
-# Worker for slow jobs (embeddings, AI-written card blurbs)
-python run_worker.py
-```
-
-TODO(dev): confirm exact start commands and the env/config needed. The mtgabyss `README.md` currently only documents the lure-generation controller/worker scripts.
+Most of that launch traffic came from AI scrapers (Meta, OpenAI, Anthropic and others). It was a rough first week and it shaped the defenses below.
 
 ## 🧩 How it works, short version
 

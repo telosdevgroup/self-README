@@ -6,13 +6,14 @@ All my tech and how it's set up. Everything runs on hardware I own, in my house,
 
 ## 🖥️ The Machines
 
-| Machine | What it is | What it does |
+| Machine | Hardware | Role |
 | :--- | :--- | :--- |
-| **Core** | 24-core CPU, 128 GB RAM, NVIDIA RTX Ada 5000 | Runs the heavy stuff: local AI models ([Ollama](https://ollama.com)), the network's DNS filter ([AdGuard Home](https://adguard.com/adguard-home.html)), MongoDB, and Celery workers. |
-| **Linux laptops (x2)** | Everyday x86_64 Linux machines | Where I write code and run AI agents. [ChangeState](projects/changestate.md) keeps them cool and [avabatt](projects/avabatt.md) protects the batteries. |
-| **Edge runner** | Raspberry Pi 500++ | Does the web scraping and polling, so risky internet traffic stays off my main machines. |
+| **Core** | 24-core CPU, 128 GB RAM, NVIDIA RTX Ada 5000 | Primary workstation & server node. Runs local models, databases, and background services behind Cloudflare Tunnels. |
+| **Laptop 1** | x86_64 Linux laptop | Mobile dev machine (couch / recliner driver). |
+| **Laptop 2** | x86_64 Linux laptop | Backup server node and failover box. |
+| **Raspberry Pi 500+** | ARM edge board | Network tinkering and sandbox toy (mostly collects dust in the corner). |
 
-Core serves both [AvaScry](projects/avascry.md) and avathings.com behind Cloudflare Tunnels. I toggle off CPU cores on Core to keep it cool and low-power when serving web traffic.
+Core handles heavier local compute while the laptops run [ChangeState](../projects/changestate.md) and [avabatt](../projects/avabatt.md) for thermal and battery preservation.
 
 ---
 
@@ -49,9 +50,3 @@ Three Anker Solix power stations sit between the wall and the gear:
 - **Ollama** on Core serves AI models over a private API. No cloud bill, and nothing leaves the house.
 - **MongoDB + Celery** handle background jobs. Fetched data gets parsed, queued, and saved to NVMe storage.
 - If the internet goes down, local agents and models keep working.
-
----
-
-## 🧪 Experiments
-
-TODO(dev): add agent experiments and bench tests here as they happen.

@@ -29,9 +29,8 @@
 Keep docs modular and structured so agents can locate and cross-reference them effortlessly:
 
 - `projects/` — Flagship builds, architectural breakdowns, case studies.
-  - Seed projects: `avascry.md`, `changestate.md`, `avabatt.md`, `avathings-applet.md`, `avathings-web.md`, `locklogs.md`.
-- `lab.md` — The whole home lab in one doc: machines, network, power, software, and agent experiments.
-- `context/` — Personal background, operating principles, mental models, skills, and ERP/operations experience (`ai-native.md`, `systems-thinking.md`, `skills.md`, `erp-and-operations.md`).
+  - Seed projects: `avascry.md`, `changestate.md`, `avabatt.md`, `avathings-applet.md`, `locklogs.md`.
+- `context/` — Personal background, lab setup, operating principles, mental models, skills, and ERP/operations experience (`lab.md`, `ai-native.md`, `systems-thinking.md`, `skills.md`, `erp-and-operations.md`).
 
 ---
 

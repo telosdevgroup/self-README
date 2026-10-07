@@ -37,4 +37,4 @@ Reading hardware state inside the panel process can make the desktop stutter. So
 
 Changing a tier or threshold needs root. `setup-sudoers.sh` adds narrow sudoers rules for those commands, so the menu works without a password popup. Read that script before running it; it edits sudo config.
 
-The repo also has a `spice-package` folder for Cinnamon Spices packaging. TODO(dev): confirm whether it's been submitted.
+The repo also has a `spice-package` folder for Cinnamon Spices packaging; it has been submitted upstream and is awaiting review.

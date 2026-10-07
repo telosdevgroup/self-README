@@ -17,7 +17,6 @@ All of it runs on my own Linux hardware.
 - 🎚️ **[ChangeState](projects/changestate.md)**: an automatic resource manager for Linux. It keeps machines cooler and quieter by capping CPU clocks, with zero third-party runtime dependencies.
 - 🔋 **[avabatt](projects/avabatt.md)**: a battery-lifespan manager that sets charge thresholds straight through `sysfs`, ThinkPad ACPI, and Lenovo EC nodes. No daemon.
 - 🖥️ **[avathings-applet](projects/avathings-applet.md)**: a Cinnamon taskbar applet for live hardware telemetry and control.
-- 🌐 **[avathings-web](projects/avathings-web.md)**: the site at [avathings.com](https://avathings.com). It's built so AI agents can read it as easily as people can, with `/llms.txt` and semantic schema.
 
 More is coming.
 
@@ -25,7 +24,7 @@ More is coming.
 
 ## 🏠 Where It Runs
 
-The home lab: a core node (Ada 5000, 128 GB), AdGuard Home DNS, a UniFi UDR7, Cloudflare Tunnels, and Anker Solix batteries for power resilience. Full breakdown in [The Lab](lab.md).
+The home lab: a core node (Ada 5000, 128 GB), AdGuard Home DNS, a UniFi UDR7, Cloudflare Tunnels, and Anker Solix batteries for power resilience. Full breakdown in [The Lab](context/lab.md).
 
 ---
 

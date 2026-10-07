@@ -4,7 +4,7 @@ An automatic resource manager for Linux. It keeps machines cooler and quieter by
 
 I wrote it because my hardware ran hot and loud doing nothing much. It's also what keeps the [AvaScry](avascry.md) laptop happy.
 
-Source: `tdg/compstate` (public repo: github.com/telosdevgroup/changestate). It's part of the AvaThings suite, see [avathings-web.md](avathings-web.md).
+Source: `tdg/compstate` (public repo: github.com/telosdevgroup/changestate). It's part of the AvaThings suite.
 
 ## 🚀 Install
 
@@ -41,7 +41,7 @@ sudo systemctl stop changestate-auto    # turn it off
 
 ## 🧰 Beyond one laptop
 
-Ansible playbooks, cron and systemd timers, and GitLab CI recipes (a build runner steps to `P:31`, then resets) are in the repo's `docs/`. It runs headless over SSH on Ubuntu, Debian, RHEL, Rocky, Alma, Fedora and Arch. TODO(dev): confirm which distros you've actually tested.
+Ansible playbooks, cron and systemd timers, and GitLab CI recipes (a build runner steps to `P:31`, then resets) are in the repo's `docs/`. I've tested it on three Linux Mint machines; because it relies strictly on standard Linux kernel interfaces, it should run cleanly on any modern distro (Debian, Ubuntu, Fedora, Arch, RHEL).
 
 ## 🔧 How it works
 
