@@ -57,6 +57,6 @@ Writing code is a translation layer. The hard part of software engineering is **
 - Where is the human error surface, and how can the system make invalid states impossible to represent?
 
 Because my center of gravity is rooted in operations and business systems, I do not design software in a vacuum. Every daemon, script, and API is evaluated against operational viability:
-- **Cost**: Can it run at $0.00/mo cloud spend on edge hardware?
+- **Cost**: Can it run with no cloud bill on modest local hardware?
 - **Maintenance**: Will this require human babysitting at 3 AM?
 - **Resilience**: When upstream APIs fail, does it fail closed, log deterministically, and preserve state?

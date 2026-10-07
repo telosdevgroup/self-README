@@ -1,82 +1,48 @@
----
-title: "avabatt"
-type: "system"
-tags: [linux, systems-programming, battery-management, kernel-interfaces, sysfs, hardware-longevity, bash]
-status: "stable"
-last_updated: 2026-10-06
-repo: "https://github.com/telosdevgroup/avabatt"
-suite_url: "https://avathings.com"
+# 🔋 avabatt
+
+**A small command that caps how full your laptop battery charges.** Stopping at 80% instead of 100% is gentler on lithium cells, so the battery lasts longer. I use it on my desk machines that live on AC power.
+
+Pure Bash. No Python, no pip, no background daemon like TLP.
+
 ---
 
-# avabatt
+## ⚡ Install
 
-> **Part of the [AvaThings Suite](avathings-web.md).**  
-> **Native Linux battery lifespan preservation & hardware charge threshold manager.**  
-> Zero third-party dependencies, zero daemon overhead. Pure POSIX bash interfacing directly with kernel `sysfs` power supply and platform driver nodes to protect Li-ion/Li-poly cells from high-voltage saturation and thermal degradation.
-
-```
-       +-------------------------------------------------------+
-       |               CLI Operator Surface                    |
-       |     (avabatt status | on [80%] | off [100%] | <N>)    |
-       +---------------------------+---------------------------+
-                                   | Root actuation
-                                   v
-       +-------------------------------------------------------+
-       |       Kernel Hardware Precedence Resolution           |
-       |  1. Mainline Linux kernel power supply (v5.4+)        |
-       |  2. ThinkPad ACPI (thinkpad_acpi / tp_smapi)          |
-       |  3. Lenovo Platform Driver (VPC2004 conservation_mode)|
-       +---------------------------+---------------------------+
-                                   | Direct sysfs writes
-                                   v
-       +-------------------------------------------------------+
-       |             Embedded Controller (EC)                  |
-       |  - Halts current at threshold ceiling (e.g. 80%)      |
-       |  - Enables pure AC pass-through power                 |
-       |  - Prevents 79% <-> 80% hysteresis micro-cycling      |
-       +-------------------------------------------------------+
+```bash
+curl -sSL https://raw.githubusercontent.com/telosdevgroup/avabatt/main/install.sh | bash
 ```
 
----
+Source: [github.com/telosdevgroup/avabatt](https://github.com/telosdevgroup/avabatt)
 
-## 1. Problem Space & Electrochemical Rationale
+## 🕹️ Commands
 
-Most laptops permanently docked or plugged into AC chargers remain saturated at 100% State of Charge (SoC). 
+```bash
+avabatt status            # charge level, limits, hardware state
+avabatt status --json     # same, for scripts
+sudo avabatt on           # 80% ceiling (my desk default)
+sudo avabatt off          # back to 100%
+sudo avabatt 80           # stop at 80%, start threshold set 5% lower
+sudo avabatt 100          # full charge, e.g. before travel
+sudo avabatt 50 75        # custom: start at 50%, stop at 75%
+sudo avabatt apply        # re-apply saved settings from /etc/avabatt.conf
+```
 
-For Lithium-ion and Lithium-polymer chemistries, prolonged high-voltage saturation (**4.2V–4.35V per cell**) combined with internal laptop thermal buildup accelerates chemical decomposition of the electrolyte and cathode, leading to rapid capacity loss and irreversible cell swelling.
+## 🔌 Good to know
 
-### Engineering Goals
-- **Eliminate Heavy Power Daemons**: Replace bulky suites (e.g., TLP, power-profiles-daemon configurations) with an instant, dependency-free kernel actuator.
-- **AC Pass-Through Preservation**: Command the laptop's Embedded Controller (EC) to halt battery charging at 80% (or custom thresholds) and switch entirely to AC pass-through.
-- **Hysteresis Micro-Cycle Defense**: Configure paired stop/start thresholds (e.g., end at 80%, start at 75%) to prevent continuous charge toggling between 79% and 80%.
-
----
-
-## 2. Kernel Interfaces & Precedence Engine
-
-`avabatt` queries and actuates hardware nodes via strict precedence resolution:
-
-| Precedence | Hardware Interface | Target `sysfs` Path | Actuation Mechanics |
-| :--- | :--- | :--- | :--- |
-| **1. Mainline Kernel** | Standard Power Supply API (Linux 5.4+) | `/sys/class/power_supply/BAT*/charge_control_end_threshold`<br>`/sys/class/power_supply/BAT*/charge_control_start_threshold` | Sets end threshold (e.g. 80%) and start threshold (e.g. 75%) directly on the battery class driver. |
-| **2. ThinkPad ACPI** | `thinkpad_acpi` / `tp_smapi` | `/sys/class/power_supply/BAT*/charge_stop_threshold`<br>`/sys/class/power_supply/BAT*/charge_start_threshold` | Direct control on IBM/Lenovo enterprise hardware. |
-| **3. Platform Driver** | Lenovo IdeaPad/Legion/Yoga (`VPC2004`) | `/sys/bus/platform/devices/VPC2004:*/conservation_mode` | Writes `1` to toggle firmware-level 75–80% conservation ceiling; `0` to restore 100%. |
+- On AC, a capped battery just sits there. It does not drain itself down to your range.
+- To get into a 50–75% window, unplug and run on battery until you're below the stop level, then plug back in.
+- Settings survive reboot and suspend/resume via the included `avabatt.service` systemd unit.
 
 ---
 
-## 3. Operational Mechanics
+## 🔧 How it works
 
-- **Drain-Down Settle**: If invoked when battery charge is above the specified threshold (e.g., set to 80% while at 95%), charging immediately halts (`Not charging`). The laptop operates off battery/pass-through until natural drain reaches 80%, where it settles.
-- **NVRAM Persistence**: Leverages native EC state retention across warm/cold reboots; trivial to schedule via one-shot systemd service or `/etc/rc.local` on firmware that resets on cold boot.
-- **Pure POSIX Bash**: Zero runtime requirements beyond standard core utilities. Runs in minimal recovery environments, containers, and headless minimal distros.
+The Linux kernel exposes charge limits as files under sysfs. avabatt writes your start and stop thresholds to those files and saves them in `/etc/avabatt.conf`. The systemd unit runs `avabatt apply` at boot and after resume, because some firmware forgets the values.
 
----
+It needs a laptop whose firmware supports charge thresholds. TODO(dev): confirm which models I've tested on.
 
-## 4. Systems Profile
+## 🧩 Part of a set
 
-| Attribute | Specification |
-| :--- | :--- |
-| **Runtime Footprint** | Pure POSIX Bash (`0 MB` daemon RAM, zero background processes) |
-| **Dependencies** | None (Linux kernel `sysfs` native) |
-| **Supported Hardware** | Intel / AMD laptops across mainline Linux, ThinkPad, IdeaPad/Legion/Yoga |
-| **Key Invariant** | Strict AC pass-through enforcement; electrochemical high-voltage defense |
+- [avathings-applet](avathings-applet.md): panel applet that controls this from the taskbar.
+- [changestate](changestate.md): the sibling tool for CPU/GPU capacity.
+- [avathings-web](avathings-web.md): the website documenting all of them.

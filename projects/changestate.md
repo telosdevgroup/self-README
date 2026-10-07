@@ -1,100 +1,54 @@
----
-title: "ChangeState"
-type: "system"
-tags: [linux, systems-programming, kernel-interfaces, power-management, hardware-tuning, automation]
-status: "stable"
-last_updated: 2026-10-06
-repo: "https://github.com/telosdevgroup/changestate"
-suite_url: "https://avathings.com"
----
+# ⚡ ChangeState
 
-# ChangeState
+An automatic resource manager for Linux. It keeps machines cooler and quieter by capping CPU clocks, and it speeds back up when you start working. No third-party dependencies.
 
-> **Part of the [AvaThings Suite](avathings-web.md).**  
-> **Autonomous, prime-cadenced hardware actuation and thermal envelope manager for Linux.**  
-> Zero third-party dependencies. Directly interfaces with sysfs, ACPI platform profiles, and GPU drivers to downregulate compute and maintain quiet, efficient thermals.
+I wrote it because my hardware ran hot and loud doing nothing much. It's also what keeps the [AvaScry](avascry.md) laptop happy.
 
-```
-       +-------------------------------------------------------+
-       |                  Client Surfaces                      |
-       |  (CLI / Cinnamon Applet / Ansible / Systemd Timers)  |
-       +---------------------------+---------------------------+
-                                   | IPC / Signals
-                                   v
-       +-------------------------------------------------------+
-       |               changestate-auto (Daemon)               |
-       |  - X11 idle hooks / input activity monitoring         |
-       |  - Harmonic prime stepping (P:7 <-> P:23 default)     |
-       |  - Activity ramp-up & decaying idle leash             |
-       +---------------------------+---------------------------+
-                                   | Actuation
-                                   v
-       +-------------------------------------------------------+
-       |               Kernel / Hardware Layer                 |
-       |  - sysfs CPU core down-regulation & clock clamping    |
-       |  - ACPI platform profile switches                     |
-       |  - AMD & NVIDIA GPU driver thermal/clock actuation    |
-       +-------------------------------------------------------+
-```
+Source: `tdg/compstate` (public repo: github.com/telosdevgroup/changestate). It's part of the AvaThings suite, see [avathings-web.md](avathings-web.md).
 
----
+## 🚀 Install
 
-## 1. Problem Space & Architectural Rationale
-
-Modern desktop and server hardware defaults to aggressive boost clocks, fan ramping, and power draw—even for mundane tasks, background processing, or idle states. Standard OS governors (`powersave`, `ondemand`, `performance`) operate with crude heuristics that swing wildly between power states.
-
-### Core Objectives
-1. **Conservative Envelope by Default**: Cap clocks at an 80% ceiling with turbo boost disabled during standard operation; preserve silicon longevity and acoustic silence.
-2. **Deterministic Prime Stepping**: Stepping transitions follow a prime-cadenced curve rather than noisy threshold jitter.
-3. **Zero Third-Party Dependencies**: Pure POSIX/bash and Linux kernel sysfs interfaces. No heavy runtime dependencies, Python daemons, or bloated GUI libraries required on target hosts.
-4. **Desktop & Cluster Scalability**: Seamlessly operates as a background daemon on personal workstations (with GUI integration like Cinnamon applets) or across multi-node server clusters via Ansible and SSH.
-
----
-
-## 2. Technical Profile & Actuation Mechanics
-
-| Layer | Implementation | Notes |
-| :--- | :--- | :--- |
-| **CPU Control** | `/sys/devices/system/cpu/*` | Dynamic core online/offline actuation, strict frequency ceiling clamping, turbo boost toggle. |
-| **GPU Control** | NVIDIA NVML/CLI & AMD `amdgpu` sysfs | Clamps power limits and clocks without breaking active render loops. |
-| **Thermals & ACPI** | `/sys/firmware/acpi/platform_profile` | Switches low-power, balanced, and performance profiles at firmware level. |
-| **Activity Tracking**| X11 idle hooks / input devices | Instant wake snap to P:11 on input; fast 2-3 minute decaying leash when user steps away. |
-| **GUI Integration** | Custom Cinnamon desktop applet | Tray diagnostics, live tier inspection, quick override switches. |
-
----
-
-## 3. Tier Topology (The P-Scale)
-
-Operating modes are mapped across discrete states with distinct hardware profiles:
-
-- **`P:0` (MOM / Metal Over Moss)**: Airgap lockdown and extreme power minimization. Requires deliberate operator confirmation.
-- **`P:7`**: Low-idle floor. Minimum active cores and baseline clock frequencies.
-- **`P:11`**: Instant wake snap (~35% capacity). Zero-lag interactive responsiveness when touching mouse/keyboard.
-- **`P:23`**: Balanced operational ceiling (~75% capacity). Whisper-quiet acoustics with turbo boost disabled.
-- **`P:31` (Salt Flats)**: 100% uncapped compute and unrestricted boost. Used for CI compile jobs or heavy compute passes.
-
-The autonomous daemon strictly bounds autonomous adjustments within **`P:7` to `P:23`**, never crossing into lockdown (`P:0`) or thermal extremes (`P:31`) without explicit manual command.
-
----
-
-## 4. Operational Surfaces & Tooling
-
-### Rapid Setup
 ```bash
-# 5-second deploy + autonomous daemon
 curl -sSL https://raw.githubusercontent.com/telosdevgroup/changestate/main/install.sh | bash
 sudo systemctl enable --now changestate-auto
 ```
 
-### Automation & Remote Fleet Management
-- **Ansible Playbooks**: Multi-host rolling deployments, cluster-wide tier shifting, and headless fleet orchestration.
-- **Systemd Timers / Cron**: Scheduled capacity shifts (e.g., higher capacity during working hours, deep sleep off-hours).
-- **CI/CD Integrations**: GitLab CI recipes enabling build runners to step to `P:31` for parallel compilation and immediately reset.
-- **Sudoers Rules**: Hardened zero-password privilege delegation for automated runner actuation.
+That puts the CLI at `/usr/local/bin/changestate` and starts the background service.
 
----
+## 🤖 What it does on its own
 
-## 5. Architectural Takeaways
+It watches keyboard and mouse activity through X11 idle hooks.
 
-- **Reliability via Simplicity**: Interfacing directly with Linux `/sys` virtual filesystems ensures robustness across distros (Ubuntu, Debian, RHEL, Rocky, Alma, Fedora, Arch) without dependency drift.
-- **Predictable State Transitions**: Replacing noisy PID controllers or naive CPU threshold polling with input hooks and bounded state tiers eliminates fan rev-ups and thermal cycling.
+- **Working:** climbs up to `P:23`, about 75% capacity, turbo off.
+- **Walk away:** after a short 2–3 minute leash, it drops back down.
+- **Come back:** touch a key and it snaps to `P:11`, about 35%.
+- **Limits:** it stays between `P:7` and `P:23`. It never goes to `P:0` or `P:31` unless you say so.
+
+```bash
+journalctl -u changestate-auto -f       # watch it work
+sudo systemctl stop changestate-auto    # turn it off
+```
+
+## 🪜 The P-scale
+
+| Level | Meaning |
+| :--- | :--- |
+| `P:0` | Lockdown, lowest power. Needs deliberate confirmation. |
+| `P:7` | Idle floor. |
+| `P:11` | Wake-up level, ~35%. |
+| `P:23` | Everyday ceiling, ~75%, quiet. |
+| `P:31` | Full speed, uncapped boost. For compile jobs and heavy runs. |
+
+## 🧰 Beyond one laptop
+
+Ansible playbooks, cron and systemd timers, and GitLab CI recipes (a build runner steps to `P:31`, then resets) are in the repo's `docs/`. It runs headless over SSH on Ubuntu, Debian, RHEL, Rocky, Alma, Fedora and Arch. TODO(dev): confirm which distros you've actually tested.
+
+## 🔧 How it works
+
+- **CPU:** writes to `/sys/devices/system/cpu/*` to take cores offline, clamp the frequency ceiling, and toggle turbo.
+- **Firmware:** switches ACPI profiles through `/sys/firmware/acpi/platform_profile`.
+- **GPU:** limits power and clocks on NVIDIA (CLI) and AMD (`amdgpu` sysfs).
+- **Steps:** the level changes follow a fixed cadence of prime numbers (7, 11, 23, 31) instead of reacting to every CPU spike. That means fewer fan rev-ups.
+- **Desktop:** there's a Cinnamon applet for the tray.
+
+Deeper docs live in the repo: `docs/architecture.md`, `docs/hardware-actuation.md`, `docs/harmonic-cadence.md`, `docs/node-status-json.md`.

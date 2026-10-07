@@ -62,7 +62,7 @@ AI hallucinates when human intent is vague. We do not use AI to generate vacuous
 ### 4. Zero-Overhead Tooling
 AI enables single developers to build and maintain systems that previously required full ops teams. We favor:
 - Bare-metal Linux and kernel virtual filesystems (`sysfs`, ACPI) over heavy runtime frameworks.
-- Zero-cloud architectures ($0.00/mo) powered by Cloudflare edge tunnels and local SQLite/Mongo over costly SaaS bills.
+- Near-zero-cloud-cost architectures powered by Cloudflare edge tunnels and local SQLite/Mongo over costly SaaS bills.
 - Autonomous background daemons over manual monitoring dashboards.
 
 ---

@@ -1,86 +1,60 @@
----
-title: "avathings-web"
-type: "system"
-tags: [web-platform, ai-native-development, fastapi, bare-metal, llms-txt, geo, cloudflare-tunnel, aiosqlite, systems-documentation]
-status: "stable"
-last_updated: 2026-10-06
-local_source: "/home/dev/Code/tdg/avathings-web"
-live_url: "https://avathings.com"
+# 🌐 avathings-web
+
+**The website for my Linux tools, at [avathings.com](https://avathings.com).** It has the command cheat sheets for changestate, avabatt and the applet, written for people and for AI assistants that need to answer questions about them.
+
+It runs on my own hardware behind a Cloudflare Tunnel. No cloud bill, just local machines and power.
+
 ---
 
-# avathings-web
+## 🤖 Made for people and bots
 
-> **AI-Built Web Platform & Generative Engine Optimization (GEO) Hub for AvaThings.**  
-> Bare-metal FastAPI service built with autonomous AI pairing, running behind Cloudflare Tunnel. Engineered intentionally for machine ingestion via `/llms.txt` standards and privacy-preserving SHA-256 telemetry.
+Alongside normal pages, the site serves:
 
-```
-                  [ Web Visitors & Autonomous AI Bots ]
-                                │
-                                ▼
-                ┌───────────────────────────────┐
-                │      Cloudflare Edge CDN      │
-                │  - Encrypted Tunnel Ingress   │
-                │  - Unblocked AI Crawler Paths │
-                └───────────────┬───────────────┘
-                                │ :8085 Ingress
-                                ▼
-                ┌───────────────────────────────┐
-                │     FastAPI / Uvicorn (:8085) │
-                │  - Privacy SHA-256 Telemetry  │
-                │  - Async SQLite (aiosqlite)   │
-                │  - Systemd Service Daemon     │
-                └───────────────┬───────────────┘
-                                │
-        ┌───────────────────────┴───────────────────────┐
-        ▼                                               ▼
-┌────────────────────────────────┐     ┌────────────────────────────────┐
-│   Agent-First Surfaces (GEO)   │     │       Human Documentation      │
-│ - /llms.txt (llmstxt.org spec) │     │ - Jinja2 Dynamic Render        │
-│ - /llms-full.txt (Prompt ready)│     │ - Real-time command cheat-sheet│
-│ - JSON-LD Schema (SoftwareApp) │     │ - Bare-metal deployment guides │
-└────────────────────────────────┘     └────────────────────────────────┘
+- `/llms.txt`: short summary, following the [llmstxt.org](https://llmstxt.org) convention
+- `/llms-full.txt`: full docs and cheat sheet in one prompt-friendly file
+- `/robots.txt`: lets AI crawlers in
+- `/sitemap.xml`
+- JSON-LD `SoftwareApplication` data on pages
+
+The idea: when someone asks an assistant about these tools, it should find clean, accurate text instead of scraping a messy page. Whether that actually changes citations: TODO(dev): confirm.
+
+I built it with an AI pair-programmer, start to finish.
+
+## 🚀 Run it locally
+
+```bash
+source venv/bin/activate
+uvicorn app.main:app --host 127.0.0.1 --port 8085 --reload
 ```
 
----
+## 🔒 Deploy
 
-## 1. Context: Built With AI, Optimized For AI
+```bash
+sudo cp avathings-web.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now avathings-web.service
+```
 
-`avathings-web` was built from zero to production as an AI-native pair programming project. Rather than treating an AI assistant as an occasional autocomplete, the architecture, schema design, and deployment pipelines were co-engineered end-to-end to serve both human engineers and downstream AI crawlers.
-
-### Key AI-Native Design Principles
-1. **First-Class Machine Readability**: Built around the emerging [llmstxt.org](https://llmstxt.org) standard (`/llms.txt` and `/llms-full.txt`), giving LLMs (ChatGPT, Claude, Perplexity) instant, token-efficient, cheat-sheet context to accurately cite and explain the toolsuite without parsing messy client-side DOMs.
-2. **Generative Engine Optimization (GEO)**: Explicit schema embedding (`SoftwareApplication` JSON-LD) and bot-welcoming `robots.txt` ensuring the Linux tools appear accurately in AI search queries.
-3. **Zero-Cloud Bare-Metal Operating Cost**: Runs directly on bare-metal Linux hardware behind Cloudflare Tunnel (`cloudflared`) on port `8085`. **$0.00/mo** hosting bill.
-
----
-
-## 2. Technical Architecture & Code Profile
-
-### Backend Stack
-- **Framework**: FastAPI (Python 3.12) with async lifespan handlers.
-- **Asynchronous Telemetry**: Uses `aiosqlite` to log incoming route requests, user-agent profiles, and one-way salted `SHA-256` client IP hashes (`ip_hash`) without collecting intrusive PII:
-  ```python
-  async def track(request: Request):
-      user_agent = request.headers.get("user-agent", "")
-      client_ip = request.client.host if request.client else ""
-      ip_hash = hashlib.sha256(client_ip.encode()).hexdigest()[:16] if client_ip else ""
-      await record_visit(request.url.path, user_agent, ip_hash)
-  ```
-- **Documentation Service**: Dynamic markdown ingestion via `docs_service.py`, serving real-time updates directly from tool catalogs.
-
-### Deployment & Daemon Management
-- **Process Supervision**: Managed via Linux `systemd` (`avathings-web.service`) with auto-restart on failure.
-- **Encrypted Edge Routing**: Cloudflare Tunnel routes public traffic (`avathings.com` and `www.avathings.com`) straight into localhost `127.0.0.1:8085` with zero open firewall ports.
+`cloudflared` maps `avathings.com` and `www.avathings.com` to `127.0.0.1:8085`. See `cloudflared-example.yml` in the repo. Because the tunnel dials out, I open no inbound firewall ports.
 
 ---
 
-## 3. Engineering Metrics & Specifications
+## 🔧 How it works
 
-| Dimension | Implementation |
-| :--- | :--- |
-| **Local Source** | `/home/dev/Code/tdg/avathings-web` |
-| **Ingress Invariant** | Encrypted `cloudflared` tunnel $\to$ `127.0.0.1:8085` |
-| **Database** | Embedded asynchronous SQLite (`avathings.db` via `aiosqlite`) |
-| **Analytics Footprint** | Pure local SHA-256 telemetry; zero third-party Google Analytics trackers |
-| **Agent Endpoints** | `/llms.txt`, `/llms-full.txt`, semantic JSON-LD |
-| **Hosting Overhead** | **$0.00 / month** |
+- **Backend:** FastAPI on Python 3.12, templates in Jinja2.
+- **Docs:** `docs_service.py` renders markdown docs into pages.
+- **Visit log:** `aiosqlite` stores path, user agent and a truncated SHA-256 of the client IP in `avathings.db`. No third-party analytics. Hashing is a privacy nudge, not anonymity; IPv4 space is small. TODO(dev): confirm whether the hash is salted (the code I saw isn't).
+- **Process:** systemd restarts it on failure.
+
+```mermaid
+flowchart LR
+  V[Visitor or bot] --> C[Cloudflare edge]
+  C -->|tunnel| F["FastAPI :8085"]
+  F --> D[(SQLite)]
+  F --> P[HTML pages]
+  F --> L[llms.txt and friends]
+```
+
+## 🧩 Related
+
+[avabatt](avabatt.md) · [avathings-applet](avathings-applet.md) · [changestate](changestate.md)

@@ -1,80 +1,40 @@
----
-title: "avathings-applet"
-type: "system"
-tags: [linux, desktop-environments, cinnamon, cinnamon-spices, javascript, async-gio, hardware-telemetry, ui]
-status: "stable"
-last_updated: 2026-10-06
-repo: "https://github.com/telosdevgroup/avathings-applet"
-suite_url: "https://avathings.com"
----
+# 🖥️ avathings applet
 
-# avathings-applet
+**A Cinnamon panel applet that shows and controls my power tools without opening a terminal.** It sits in the Linux Mint taskbar, shows the current state, and lets me change it in one click.
 
-> **Desktop companion for the [AvaThings Suite](avathings-web.md).**  
-> **Native Cinnamon Panel Applet for Real-Time Hardware Telemetry and Control.**  
-> Panel UUID: `avathings@telosdevgroup`. Integrates `changestate` (compute capacity) and `avabatt` (battery threshold) directly into the Linux Mint taskbar with asynchronous GIO subprocess polling.
-
-```
-+-------------------------------------------------------------+
-|                    Cinnamon Panel (Mint)                    |
-|       [ P:23 | 78% (Cap 80%) | changestate: auto ON ]       |
-+------------------------------+------------------------------+
-                               |
-            +------------------+------------------+
-            | Click / Flyout Menu                 |
-            v                                     v
-+-----------------------+             +-----------------------+
-|  Compute Governor     |             |  Battery Preserver    |
-| - Slider: P:2 -> P:31 |             | - Desk Mode (80%)     |
-| - changestate-auto    |             | - Full Travel (100%)  |
-|   toggle (ON/OFF)     |             | - Custom Threshold    |
-+-----------+-----------+             +-----------+-----------+
-            |                                     |
-            +------------------+------------------+
-                               | Async Gio.Subprocess
-                               v
-+-------------------------------------------------------------+
-|                     Underlying Hardware                     |
-|         (/usr/local/bin/changestate | /usr/local/bin/avabatt)|
-+-------------------------------------------------------------+
-```
+It talks to two tools: [changestate](changestate.md) (CPU/GPU capacity) and [avabatt](avabatt.md) (battery charge limit).
 
 ---
 
-## 1. Architectural Problem: Desktop Panel Responsiveness
-
-Querying hardware sysfs nodes or invoking shell utilities directly from a desktop shell extension can easily introduce UI stutter or micro-freezes if executed synchronously on the Cinnamon main event loop.
-
-### Engineering Solutions
-- **Non-Blocking Telemetry over Gio**: All status queries and telemetry polling run via asynchronous `Gio.Subprocess` calls, completely decoupling hardware I/O latency from Cinnamon UI frame rendering.
-- **Polkit-Free Sudo Delegation**: Includes automated sudoers hardening (`scripts/setup-sudoers.sh`) so users can switch compute tiers and battery thresholds instantly without disruptive password prompt modals.
-
----
-
-## 2. Feature Profile
-
-| Capability | Implementation | Benefit |
-| :--- | :--- | :--- |
-| **Real-Time Display** | Live panel label rendering | Instant feedback on active tier (`P:23`), battery SoC, and active threshold limit. |
-| **Compute Governor Control** | Flyout menu with prime tiers (`P:2` to `P:31`) | Immediate actuation of CPU core down-regulation and clock clamping. |
-| **Autonomous Daemon Toggle** | `changestate-auto` state switch | Enables or pauses the background activity-monitoring daemon on demand. |
-| **Battery Threshold Modes** | Desk Mode (80%) vs. Full Travel (100%) | One-click hardware EC charge halt to prevent lithium saturation. |
-| **Custom Profiles** | Arbitrary start/stop limits (e.g. 50%–75%) | Tailored thresholds for specialized charging workflows. |
-
----
-
-## 3. Packaging & Installation
-
-Packaged for Cinnamon Spices standards:
+## ⚡ Install
 
 ```bash
-# Clone and install applet to ~/.local/share/cinnamon/applets/
-./scripts/install-applet.sh
+./scripts/install-applet.sh     # copies to ~/.local/share/cinnamon/applets/
 ./scripts/enable-applet.sh
 
-# (Optional) Passwordless sudo rules for seamless tier switching
+# optional: passwordless sudo for the specific commands it runs
 sudo ./scripts/setup-sudoers.sh
 ```
 
-- **Panel UUID**: `avathings@telosdevgroup`
-- **Source Tree**: `applet/avathings@telosdevgroup`
+- Applet UUID: `avathings@telosdevgroup`
+- Source: `applet/avathings@telosdevgroup` in the repo
+
+## 👀 What you get
+
+| In the panel | What it does |
+| :--- | :--- |
+| Live label, e.g. `P:23` | Shows the active capacity tier, battery level and charge limit |
+| Tier menu | Pick a changestate tier, `P:2` up to `P:31` |
+| Auto toggle | Start or pause the `changestate-auto` daemon |
+| Desk / Travel | Battery cap at 80% or 100% |
+| Custom limits | Any start/stop pair, like 50–75% |
+
+---
+
+## 🔧 How it works
+
+Reading hardware state inside the panel process can make the desktop stutter. So the applet never blocks: it runs status checks as async `Gio.Subprocess` calls and updates the label when they return.
+
+Changing a tier or threshold needs root. `setup-sudoers.sh` adds narrow sudoers rules for those commands, so the menu works without a password popup. Read that script before running it; it edits sudo config.
+
+The repo also has a `spice-package` folder for Cinnamon Spices packaging. TODO(dev): confirm whether it's been submitted.
