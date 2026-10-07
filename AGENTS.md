@@ -33,8 +33,7 @@ Keep docs modular and structured so agents can locate and cross-reference them e
 - `lab.md` — The whole home lab in one doc: machines, network, power, software, and agent experiments.
 - `ethos/` — Operating principles, mental models, decision heuristics, AI-native philosophies.
   - Initial seeds: `ai-native.md`, `systems-thinking.md`.
-- `skills/` — Hard capability specs, toolchains, integration profiles.
-- `experience/` — Roles, engagements, operational impact, battle scars.
+- `experience/` — Roles, engagements, skills, operational impact, battle scars.
 
 ---
 
