@@ -3,6 +3,7 @@
 > AI isn't an autocomplete gadget. Used properly, it changes how software gets built.
 > The work shifts from typing syntax to framing problems, setting constraints, and making sure the results actually hold up in the real world.
 
+
 ## The Core Shift: From Writing Syntax to Conducting Systems
 
 Traditional software engineering measures how quickly someone can remember API syntax, type code, and parse stack traces.
@@ -10,8 +11,11 @@ Traditional software engineering measures how quickly someone can remember API s
 When you work with AI natively, the bottleneck changes completely:
 
 - **Clear specs matter more than typing speed.** If you can't clearly define the problem, the constraints, and the edge cases, an AI will produce confident-sounding nonsense. Clear instructions yield reliable software.
+
 - **The codebase is an environment for the agent.** Messy repo layouts, vague names, and giant multi-thousand-line files confuse AI just as much as they confuse humans. Structuring a project cleanly keeps the model focused and accurate.
+
 - **The human is the editor and reality check.** Generating lines of code is easy. Knowing whether the architecture makes sense, whether a database query will grind under load, or whether a script behaves safely on real Linux hardware is where human discernment matters.
+
 
 ## Principles I Build By
 
@@ -30,12 +34,17 @@ AI makes it practical for one person to build and operate tools that used to tak
 - Local hardware and self-hosted databases over recurring cloud invoices.
 - Purpose-built daemons over layers of third-party monitoring services.
 
+
 ## How I Work Day to Day
 
 1. **Frame the Problem**: Figure out what actually needs to be built, the real-world constraints, and how failure should be handled.
+
 2. **Direct the Build**: Use AI agents to scaffold the implementation, run tests, and handle refactoring.
+
 3. **Verify on Real Hardware**: Inspect the code, test edge cases, and run it on physical machines to make sure it performs properly.
+
 4. **Keep Docs in Sync**: Write clean, plain-English docs that explain what the tool does and how to run it.
+
 
 ## Why It Matters
 
