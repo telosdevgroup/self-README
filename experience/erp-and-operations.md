@@ -1,130 +1,78 @@
----
-title: "Operations, ERP, & Systems Analysis Background"
-type: "system"
-tags: [experience, netsuite, erp, operations-management, accounting, ecommerce, supply-chain]
-status: "stable"
-last_updated: 2026-10-06
----
+# Operations, ERP, & Systems Analysis
 
-# Operations, ERP, & Systems Analysis Background
-
-> **Enterprise systems at scale are high-stakes, multi-variable optimization problems.**  
-> Grounding software architecture in formal business logic, double-entry accounting integrity, and supply chain realities.
+> Before I spent my days directing AI agents or tuning Linux daemons, I ran business systems and data pipelines for a high-volume hardware refurbishing and custom server manufacturing business.
 
 ---
 
-## 1. Academic & Disciplinary Core
+## The Academic Foundation
 
 - **Degree**: Production & Operations Management
 - **Minor**: Accounting
-- **Core Competencies**:
-  - Theory of Constraints (Goldratt) & Bottleneck Analysis
-  - Double-Entry General Ledger Integrity & Audit Defensibility
-  - Material Requirements Planning (MRP) & Inventory Cycle Dynamics
-  - Queuing Theory, Throughput Modeling, & Statistical Process Control
+- **Core Focus**: Theory of Constraints (bottlenecks), double-entry accounting integrity, material requirements planning (MRP), and inventory cycle dynamics.
+
+I didn't start in a traditional computer science lab. I started on the operational floor, learning how materials move, where money leaks, and how supply chains actually break down when software gets in the way.
 
 ---
 
-## 2. Enterprise Case Study: Server Lifecycle & Custom Systems Manufacturing
+## The Real-World Operation: Custom Server Manufacturing
 
-Before engineering Linux daemons and directing autonomous AI agents, I served as the systems analyst and technical integration lead for a high-volume hardware refurbishing, e-commerce, and custom server manufacturing enterprise. 
+The business model was straightforward but logistically intense:
+1. Buy decommissioned data center gear by the truckload (thousands of enterprise servers at a time).
+2. Diagnostic-test components on the bench and tear them down to bare chassis, motherboards, CPUs, RAM, and drives.
+3. Dynamically build and configure custom servers to customer specs, selling across our web store and marketplaces.
 
-**The Business Model**: Buy data center hardware by the truckload (thousands of servers), test components at scale, tear them down to bare chassis/boards/CPUs/RAM, and dynamically re-manufacture custom computer and server configurations for clients across web and marketplace channels.
+The challenge wasn't just physical assembly—it was tracking tens of thousands of volatile components in real time across warehouse bins, online listings, customer quotes, and financial books.
 
-This environment was a crucible for end-to-end systems thinking: physical warehouse operations, volatile multi-component inventory, high-velocity listing channels, and real-time sales order execution all converged on a single transactional core.
-
-```mermaid
-flowchart TD
-    subgraph Inbound & Teardown
-        A["Truckloads of Decommissioned Servers"] --> B["Hardware Diagnostic & Bench Testing"]
-        B --> C["Component Teardown & Binning\n(CPUs, RAM, Drives, Motherboards)"]
-    end
-
-    subgraph ERP Central Core
-        C --> D["NetSuite ERP Ledger & WMS\n(Assemblies, Kits, Inventory Items)"]
-        D <--> E["SuiteScript Automation &\nCustom Transaction Logic"]
-    end
-
-    subgraph Omnichannel & Customer Touchpoints
-        E <-->|"Bi-directional Sync (FarApp)"| F["eBay Marketplace Engine\n(Live Listings, Auto-Relist, Stockouts)"]
-        E <-->|"Click Stream & Opt-In (Cazoomi)"| G["Constant Contact Email Engine\n(25k+ Subscribers, Heatmaps)"]
-        E <-->|"Lead Routing & CRM"| H["Velaro Live Chat\n(Pre-Purchase Sales Context)"]
-        E <-->|"Configurator Engine"| I["Custom Server & Quote Web Store"]
-    end
-
-    subgraph Human Decision Augmentation
-        E --> J["Sales Blast Reports\n($10k-$20k Rapid Turnaround)"]
-        E --> K["COO Churn & Purchasing Models\n(Capital Allocation)"]
-    end
-```
+If our software fell out of sync with physical stock for even an hour, we either oversold parts we didn't have or sat on expensive components while market prices dropped.
 
 ---
 
-## 3. Flagship Integrations & Vendor Engineering
+## Building Integrations That Worked
 
-Rather than simply operating commercial software, I identified operational bottlenecks, drafted RFC-level requirements, pitched executive management, collaborated directly with software founders on protocol improvements, executed the rollouts, and supported them in production for years.
+Instead of wrestling with off-the-shelf software or treating people like human copy-paste machines between spreadsheets, I worked directly with founders and platform APIs to wire our business together.
 
-### A. Near-Real-Time Marketplace Sync: eBay & FarApp
-- **Vendor & Counterpart**: Worked directly over 12+ months with Steve Greiner (founder of FarApp, later acquired by Oracle as NetSuite Connector).
-- **The Challenge**: Managing thousands of volatile, fast-moving hardware SKUs across eBay and NetSuite using legacy manual tools (TurboLister) resulted in overselling out-of-stock items, phantom orders, and immense manual overhead.
-- **Architectural Solution**: Built a robust, near-real-time synchronization layer mapping custom NetSuite fields to live eBay listings.
-  - Automated inventory level sync to immediately kill listings when components fell below minimum safety thresholds.
-  - Bidirectional sales order ingestion with automated customer feedback tracking.
-  - Synchronized live eBay listing metrics directly back into NetSuite saved searches and reports for profitability analysis.
+### 1. eBay & NetSuite: Near-Real-Time Inventory Sync (FarApp)
+- **The Problem**: Managing thousands of volatile hardware parts across eBay and NetSuite using TurboLister meant constant manual uploads. We regularly ran into stockouts, oversold items, and phantom inventory.
+- **What I Did**: Worked directly with Steve Greiner (founder of FarApp, later acquired by Oracle as NetSuite Connector) over 12+ months to build a near-real-time sync layer.
+- **The Outcome**: When component bins ran low in the warehouse, eBay listings automatically paused or shut down before anyone could buy what wasn't there. Incoming sales orders pushed straight into NetSuite fulfillment queues without manual data entry.
 
-### B. CRM & Behavioral Opt-In Pipeline: Constant Contact & Cazoomi
-- **Vendor & Counterpart**: Collaborated over 6+ months with Clint Wilson (founder of Cazoomi).
-- **The Challenge**: A 25,000+ subscriber customer list required manual, bi-weekly spreadsheet exports and reconciliations to maintain opt-in hygiene, wasting hours of operational time and risking compliance infractions. This was Cazoomi's largest enterprise deployment to date.
-- **Architectural Solution**: Engineered a bi-directional sync engine between NetSuite customer entities and Constant Contact lists.
-  - Automated opt-in/opt-out status propagation with zero manual intervention.
-  - **Click-Stream Behavioral Ingestion**: Co-developed a novel data bridge attaching email click activity directly to the customer entity in NetSuite. Sales reps could immediately see which specific hardware components or systems a prospect inspected.
+### 2. Customer List & Behavioral Sync (Constant Contact & Cazoomi)
+- **The Problem**: A 25,000+ subscriber list required bi-weekly spreadsheet exports and reconciliations just to keep unsubscribe lists and customer groups accurate. This was Cazoomi's largest deployment at the time.
+- **What I Did**: Partnered with Clint Wilson (founder of Cazoomi) over 6+ months to automate bi-directional sync between NetSuite customer records and Constant Contact.
+- **The Outcome**: Opt-ins and opt-outs stayed synchronized automatically. We also brought click-activity data directly into NetSuite customer records, letting sales reps see which parts or systems a customer was eyeing.
 
-### C. Contextual Lead Attribution: Velaro Live Chat
-- **The Challenge**: Inbound sales leads on high-ticket custom servers lacked CRM context, causing reps to spend critical minutes looking up purchase histories while leads went cold.
-- **Architectural Solution**: Integrated Velaro live chat with NetSuite CRM, automatically looking up returning customer records, assigning lead sources, and equipping reps with instant purchase histories.
-- **Impact**: Attributed \$60,000–\$100,000 in direct new business while slashing time-to-resolution for support tickets.
+### 3. Live Chat Attribution (Velaro)
+- **The Problem**: Sales reps taking chat inquiries on high-ticket enterprise builds spent the first few minutes flying blind, searching NetSuite for customer order history while leads cooled down.
+- **What I Did**: Integrated Velaro live chat with NetSuite CRM to automatically identify returning accounts, display past orders, and log chat transcripts directly into customer profiles.
+- **The Outcome**: Reps had full purchase history the second a chat opened, directly attributing \$60,000–\$100,000 in new sales while speeding up support turnaround.
 
 ---
 
-## 4. Operational Tooling & SuiteScript Automation
+## Custom Tooling & NetSuite Automation
 
-Enterprise systems fail when humans are forced to be the glue between fragmented interfaces. I wrote SuiteScripts and designed NetSuite interfaces to make invalid operational states impossible:
+Enterprise tools fail when people have to act as the glue between clunky interfaces. I wrote SuiteScripts and designed NetSuite workflows to make bad data entry impossible:
 
-### Custom Item Modeling & Web Configurators
-- **Assemblies vs. Kits vs. Inventory Items**:
-  - *Simple Parts*: Minimalist, fast-entry forms for raw components.
-  - *Assemblies*: Pre-configured building blocks (e.g., matching chassis + motherboard pairs) with allocation logic that reserved components while calculating how many complete kits could be manufactured with existing stock.
-  - *Dynamic Kits*: Built an interactive server configurator and quote builder for the e-commerce storefront, allowing clients to customize CPUs, memory, drive arrays, and controller cards with real-time compatibility and pricing checks.
-
-### Context-Aware Sales Order Validation
-- **Tiered Verification Workflows**: Replaced generic order entry with state-aware forms. Basic components processed with minimal gating; custom multi-node server orders enforced automated compatibility checks, component allocation locks, and mandatory accounting credit verification before moving to the warehouse queue.
-- **Expedited Order Logic**: Injected priority escalation rules into warehouse fulfillment queues to re-sequence pick/pack tasks for expedited rush builds.
-
-### Sales Rep Enablement & Decision Feeds
-- **Next-Day Click-to-Close Reports**: Automated reports delivered to sales reps the morning after an email blast, isolating customers who clicked high-value server components but did not complete checkout. Reps engaged hot leads same-day, consistently generating **\$10,000–\$20,000 in incremental revenue** within 48 to 72 hours.
-- **Automated Sales Rolling Metrics**: Nightly SuiteScripts calculating rolling customer lifetime value (LTV), velocity of top-performing SKUs, and territory time-zone segmentations.
+- **Server Configurator & Dynamic Kits**: Built an interactive web configurator for our storefront. Customers could pick processors, RAM configurations, drive arrays, and RAID cards with real-time compatibility checks and pricing updates. Behind the scenes, NetSuite calculated component availability so we never quoted configurations we couldn't build.
+- **Smart Sales Order Validation**: Simple parts flowed straight through to pick-and-pack. High-value custom builds required automated component allocation holds and credit checks before hitting the warehouse queue. Rush orders were flagged to automatically jump fulfillment lines.
+- **Morning Click-to-Close Reports**: Automated reports delivered to sales reps the morning after an email campaign. Reps could see customers who clicked high-margin server configurations but didn't finish buying. Following up with those warm leads consistently drove **\$10,000–\$20,000 in incremental sales** within 48 to 72 hours.
 
 ---
 
-## 5. Operations & Executive Insight (Reporting to COO)
+## Working with Executive Leadership
 
-Directly partnered with the Chief Operating Officer to transform raw transactional ledgers into capital allocation decisions:
-- **Inventory Churn & Obsolescence**: Modeled component turnover velocity against warehouse shelf-life to identify decaying silicon before market prices crashed.
-- **Purchasing Decision Models**: Combined historical component teardown yields with eBay marketplace clearing prices to model whether buying a specific truckload of decommissioned data center servers was profitable.
-- **Role-Based Governance**: Fine-grained NetSuite permissions, audit logs, and search access control to ensure departmental separation of concerns without stifling operational speed.
+Reporting directly to the Chief Operating Officer, I turned operational data into concrete buying and inventory decisions:
+
+- **Inventory Velocity & Aging**: Tracked how quickly specific CPUs, memory modules, and drives turned over so we could discount aging silicon before market value dropped.
+- **Truckload Purchase Modeling**: Combined historical component teardown yields with marketplace clearing prices to model whether buying a decommissioned data center lot would actually turn a profit after labor and bench testing.
+- **Permissions & Clean Audits**: Built role-based access in NetSuite so sales, warehouse, and accounting teams had exactly the access they needed without breaking internal controls or slowing down daily work.
 
 ---
 
-## 6. The Through-Line: From ERP Systems to AI-Native Development
+## Why This Matters for Modern AI & Systems Work
 
-This background dispels any myth that building AI-native systems is a random pivot. The operational principles are identical:
+Building AI systems isn't a break from this background—it's the exact same discipline applied to new tools:
 
-| 2010s Business Systems Integration | 2020s AI-Native Systems Engineering |
-| :--- | :--- |
-| **NetSuite ERP + SuiteScript** | **Linux Kernel, Bash, Python, & Git** |
-| Connecting eBay, email, warehouse, and ledger | Connecting autonomous agent swarms, tool harnesses, and APIs |
-| Eliminating manual data re-entry and human spreadsheet glue | Eliminating human syntax authoring through prompt-as-RFC specs |
-| Invariant: Inflow $-$ Outflow = $\Delta$ Inventory; General Ledger balance | Invariant: In-memory cache consistency, zero phantom state, thermal caps |
-| Partnering with founders to fix API edge cases and sync loops | Directing multi-agent swarms to verify edge cases and test invariants |
+- **In ERP systems**, the challenge was connecting APIs, warehouses, and ledgers so humans didn't waste hours shuffling spreadsheets.
+- **In AI-native engineering**, the challenge is giving language models clear specs, clean tool interfaces, and solid constraints so they build useful software without hallucinating or breaking state.
 
-Whether orchestrating an inventory teardown pipeline across marketplaces or coordinating autonomous AI agents across Linux daemons, the core competency is unchanged: **investigate the operational reality, design the feedback loops, codify the invariants, eliminate manual friction, and ensure the entire system behaves as a single coherent machine.**
+The principle is identical: understand the real-world workflow, remove friction, respect the constraints, and build systems that don't need constant babysitting to run cleanly.
