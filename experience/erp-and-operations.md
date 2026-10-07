@@ -2,8 +2,6 @@
 
 > Before I spent my days directing AI agents or tuning Linux daemons, I ran business systems and data pipelines for a high-volume hardware refurbishing and custom server manufacturing business.
 
----
-
 ## The Academic Foundation
 
 - **Degree**: Production & Operations Management
@@ -12,11 +10,10 @@
 
 I didn't start in a traditional computer science lab. I started on the operational floor, learning how materials move, where money leaks, and how supply chains actually break down when software gets in the way.
 
----
-
 ## The Real-World Operation: Custom Server Manufacturing
 
 The business model was straightforward but logistically intense:
+
 1. Buy decommissioned data center gear by the truckload (thousands of enterprise servers at a time).
 2. Diagnostic-test components on the bench and tear them down to bare chassis, motherboards, CPUs, RAM, and drives.
 3. Dynamically build and configure custom servers to customer specs, selling across our web store and marketplaces.
@@ -24,8 +21,6 @@ The business model was straightforward but logistically intense:
 The challenge wasn't just physical assembly—it was tracking tens of thousands of volatile components in real time across warehouse bins, online listings, customer quotes, and financial books.
 
 If our software fell out of sync with physical stock for even an hour, we either oversold parts we didn't have or sat on expensive components while market prices dropped.
-
----
 
 ## Building Integrations That Worked
 
@@ -46,8 +41,6 @@ Instead of wrestling with off-the-shelf software or treating people like human c
 - **What I Did**: Integrated Velaro live chat with NetSuite CRM to automatically identify returning accounts, display past orders, and log chat transcripts directly into customer profiles.
 - **The Outcome**: Reps had full purchase history the second a chat opened, directly attributing \$60,000–\$100,000 in new sales while speeding up support turnaround.
 
----
-
 ## Custom Tooling & NetSuite Automation
 
 Enterprise tools fail when people have to act as the glue between clunky interfaces. I wrote SuiteScripts and designed NetSuite workflows to make bad data entry impossible:
@@ -56,8 +49,6 @@ Enterprise tools fail when people have to act as the glue between clunky interfa
 - **Smart Sales Order Validation**: Simple parts flowed straight through to pick-and-pack. High-value custom builds required automated component allocation holds and credit checks before hitting the warehouse queue. Rush orders were flagged to automatically jump fulfillment lines.
 - **Morning Click-to-Close Reports**: Automated reports delivered to sales reps the morning after an email campaign. Reps could see customers who clicked high-margin server configurations but didn't finish buying. Following up with those warm leads consistently drove **\$10,000–\$20,000 in incremental sales** within 48 to 72 hours.
 
----
-
 ## Working with Executive Leadership
 
 Reporting directly to the Chief Operating Officer, I turned operational data into concrete buying and inventory decisions:
@@ -65,8 +56,6 @@ Reporting directly to the Chief Operating Officer, I turned operational data int
 - **Inventory Velocity & Aging**: Tracked how quickly specific CPUs, memory modules, and drives turned over so we could discount aging silicon before market value dropped.
 - **Truckload Purchase Modeling**: Combined historical component teardown yields with marketplace clearing prices to model whether buying a decommissioned data center lot would actually turn a profit after labor and bench testing.
 - **Permissions & Clean Audits**: Built role-based access in NetSuite so sales, warehouse, and accounting teams had exactly the access they needed without breaking internal controls or slowing down daily work.
-
----
 
 ## Why This Matters for Modern AI & Systems Work
 

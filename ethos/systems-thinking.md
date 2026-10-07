@@ -3,8 +3,6 @@
 > An inventory warehouse, an accounting ledger, and an operating system have more in common than most people think.
 > In every case, you're tracking state, managing bottlenecks, and making sure the numbers balance.
 
----
-
 ## The Core Insight: Everything Balances
 
 My background didn't start in a traditional computer science curriculum. It started in **Production & Operations Management, NetSuite ERP systems, and double-entry accounting**.
@@ -17,8 +15,6 @@ In software, it's easy to get distracted by shiny frameworks or trendy UI librar
 
 Every healthy system has baseline rules it cannot violate without breaking. If you can't describe those core rules in simple terms, you don't understand the system yet.
 
----
-
 ## Rules That Keep Systems Stable
 
 When I build tools—like [ChangeState](../projects/changestate.md) to manage CPU temps, or [avabatt](../projects/avabatt.md) to protect ThinkPad battery health—the focus isn't on clever code. It's on keeping the machine in a safe, predictable state:
@@ -26,8 +22,6 @@ When I build tools—like [ChangeState](../projects/changestate.md) to manage CP
 1. **Rely on Ground Truth**: Avoid guessing or relying on ephemeral memory that can fall out of sync. Read state straight from the actual source—whether that's a database record, a log, or a Linux virtual filesystem like `sysfs`.
 2. **Smooth, Predictable Responses**: When a system drifts out of its ideal range (like a CPU running hot or inventory running low), adjustments should be calm and steady, not erratic swings that cause oscillation.
 3. **Repeatable Actions (Idempotence)**: Applying the same setting or configuration twice shouldn't break anything. If the machine is already in the right state, leave it alone.
-
----
 
 ## The Operations Advantage in Software
 
