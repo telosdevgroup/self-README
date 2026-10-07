@@ -47,3 +47,12 @@ Every system since—from enterprise ERP ledgers to bare-metal Linux kernel daem
 
 - [AGENTS.md](AGENTS.md) — Directives, constraints (<500 lines/file), directory topology, and agent roles for autonomous contributors.
 
+---
+
+## 📡 Signal & Comms
+
+- **Email**: [thekylecarlson@gmail.com](mailto:thekylecarlson@gmail.com)
+- **LinkedIn**: [linkedin.com/in/thekylecarlson](https://www.linkedin.com/in/thekylecarlson)
+- **GitHub**: [github.com/telosdevgroup](https://github.com/telosdevgroup)
+
+
